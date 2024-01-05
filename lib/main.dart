@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'Newpage.dart';
+
 void main() {
   runApp(
     const ProviderScope(child: MyApp()),
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
@@ -135,8 +137,155 @@ class HomePage extends ConsumerWidget{
                 );
               }
           ),),
+          ElevatedButton(onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => stlnew(),));
+          }, child: Text("next")),
         ],
       ),
     );
   }
 }
+// import 'dart:io';
+//
+// import 'package:flutter/material.dart';
+// import 'package:image_cropper/image_cropper.dart';
+// import 'package:face_camera/face_camera.dart';
+//
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//
+//   await FaceCamera.initialize();
+//
+//   runApp(const MyApp());
+// }
+//
+// class MyApp extends StatefulWidget {
+//   const MyApp({Key? key}) : super(key: key);
+//
+//   @override
+//   State<MyApp> createState() => _MyAppState();
+// }
+//
+// class _MyAppState extends State<MyApp> {
+//   File? _capturedImage;
+//   Face? _detectedFace;
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//           appBar: AppBar(
+//             title: const Text('FaceCamera example app'),
+//           ),
+//           body: Builder(builder: (context) {
+//             if (_capturedImage != null) {
+//               return Center(
+//                 child: Stack(
+//                   alignment: Alignment.bottomCenter,
+//                   children: [
+//                     Image.file(
+//                       _capturedImage!,
+//                       width: double.maxFinite,
+//                       fit: BoxFit.fitWidth,
+//                     ),
+//                     Column(
+//                       children: [
+//                         ElevatedButton(
+//                             onPressed: () => setState(() => _capturedImage = null),
+//                             child: const Text(
+//                               'Capture Again',
+//                               textAlign: TextAlign.center,
+//                               style: TextStyle(
+//                                   fontSize: 14, fontWeight: FontWeight.w700),
+//                             )),
+//                         ElevatedButton(
+//                             onPressed: () {  _cropImage(_capturedImage!.path);},
+//                             child: const Text(
+//                               'done',
+//                               textAlign: TextAlign.center,
+//                               style: TextStyle(
+//                                   fontSize: 14, fontWeight: FontWeight.w700),
+//                             )),
+//                       ],
+//                     ),
+//                   ],
+//                 ),
+//               );
+//             }
+//             return Stack(
+//               children: [
+//                 SmartFaceCamera(
+//                   autoCapture: true,
+//                   defaultCameraLens: CameraLens.front,
+//                   onCapture: (File? image) {
+//                     setState(() => _capturedImage = image);
+//                   },
+//                   onFaceDetected: (Face? face) {
+//                     // setState(() => _detectedFace = face);
+//                   },
+//                   messageBuilder: (context, face) {
+//                     if (face == null) {
+//                       return _message('Place your face in the camera');
+//                     }
+//                     if (!face.wellPositioned) {
+//                       return _message('Center your face in the square');
+//                     }
+//                     return const SizedBox.shrink();
+//                   },
+//                 ),
+//                 if (_detectedFace != null)
+//                   _drawFaceOverlay(_detectedFace!),
+//               ],
+//             );
+//           },
+//           ),
+//       ),
+//     );
+//   }
+//   Widget _message(String msg) => Padding(
+//     padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 15),
+//     child: Text(msg,
+//         textAlign: TextAlign.center,
+//         style: const TextStyle(
+//             fontSize: 14, height: 1.5, fontWeight: FontWeight.w400)),
+//   );
+//
+// Widget _drawFaceOverlay(Face face) {
+//   return Positioned(
+//     left: 5,
+//     top: 5,
+//     width: 70,
+//     height: 70,
+//     child: Container(
+//       decoration: BoxDecoration(
+//         border: Border.all(
+//           color: Colors.green, // You can customize the color
+//           width: 2.0, // You can customize the border width
+//         ),
+//       ),
+//     ),
+//   );
+// }
+//   void _cropImage(String imagePath) async {
+//     ImageCropper imageCropper = ImageCropper();
+//     File? croppedFile = await imageCropper.cropImage(
+//       sourcePath: imagePath,
+//       aspectRatioPresets: [
+//         CropAspectRatioPreset.square,
+//       ],
+//       uiSettings: [AndroidUiSettings(
+//         toolbarTitle: 'Crop Face',
+//         toolbarColor: Colors.blue,
+//         toolbarWidgetColor: Colors.white,
+//         statusBarColor: Colors.blue,
+//         backgroundColor: Colors.black,
+//       ),],
+//     )as File?;
+//
+//     if (croppedFile != null) {
+//       setState(() {
+//         _capturedImage = croppedFile;
+//       });
+//     }
+//   }
+//
+// }
